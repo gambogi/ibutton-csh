@@ -11,14 +11,13 @@ class IbuttonHandler(tornado.web.RequestHandler):
    	
 	# To move to production, change these initialization values
 	# to a user/pass which can search ibuttons     
-	ldap = CSHLDAP('user', 'password')
+	ldap = CSHLDAP('user', 'password', app=True)
 	# get the ibutton from the arguments
 	ibutton = self.get_argument('ibutton')
 	entry = ldap.search(ibutton=ibutton)[0]
 	response = {
             'username': entry[1]['uid'],
-            # entryUUID temporarily disabled while I work out some permissions errors
-            #'entryUUID': entry[1]['entryUUID']
+            'entryUUID': entry[1]['entryUUID']
             }
 	# return it
         self.write(response)
